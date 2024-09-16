@@ -1,0 +1,30 @@
+securing REST APIs using JWT token authentication
+=====================================================
+1. add spring-boot-starter-security, jwt related dependencies in pom.xml file
+
+2. Register user api- register user with phno,..
+
+3. Log in api- generate jwt token for the user using user phno. with jwt utils 
+
+4. Fetch all users api---> Accessing this rest api with jwt token authentication
+ create a class  for security config,
+ with @Configuration and 
+@EnableWebSecurity--> It allows you to provide a custom security configuration by creating a class,
+it is a class level annotations
+	4a. create security rules for a Spring Boot application using the SecurityFilterChain bean with @Bean inside the security config class.
+		4a I. inside this bean we can also enable CORS (Cross-Origin Resource Sharing) when FE and BE are deployed in different domains,..
+		4a II. inside this bean we can whitelist api endpoints which doesnot require authentication.
+		4a III. inside this bean we can add custom filter to authenticate the incoming requests using jwt token.
+
+5. create a class for custom filter to authenticate the incoming requests using jwt token
+	5a. this class extends OncePerRequestFilter--> a filter is executed only once per request
+	5b. override doFilterInternal method --> contains the logic that you want to execute for each incoming request and only once per request .
+		5b I. get the token from the request.
+		5b II. using jwt util validate the token, whether is it malformatted, expired,.. ,if is it then throw error
+		5b III. using jwt util,get the user detail from the token, the token will be created using one of the fields for the user ex.phone number,.. uniquely identifying the user
+		5b IV. check whether that phone number is present in the table, if not throw error
+		5b V. if the user is authenticated, we need to set the authentication details (ie token) for that user in SecurityContext. So during the request process we can anytime access the user's token from the SecurityContext.
+SecurityContext--> contains details about the principal (user) during a request's lifecycle
+
+
+	
